@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const FB = require('fb')
 var jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 const login = function(req,res){
     let email = req.body.email
@@ -16,7 +17,7 @@ const login = function(req,res){
             user
             .comparePassword(password, function(err, isMatch){  
                 if(isMatch){
-                    var token = jwt.sign({ id:user.id, name:user.name, email:user.email }, 'hacktiv8');
+                    var token = jwt.sign({ id:user.id, name:user.name, email:user.email }, process.env.tokenSecretKey);
                     console.log("dari server token :", token )
                     res
                         .status(200)
@@ -63,7 +64,7 @@ loginFacebook = function(req,res){
                     console.log(user)
                     if(user){
                         console.log("ada user nya", user)
-                        var token = jwt.sign({ id:user.id, name:user.name, email:user.email }, 'hacktiv8');
+                        var token = jwt.sign({ id:user.id, name:user.name, email:user.email }, process.env.tokenSecretKey);
         
                         console.log("dari server token (ada user):", token )
                         res
@@ -80,7 +81,7 @@ loginFacebook = function(req,res){
                             password:password,
                         })
                         .then(function(user){
-                            var token = jwt.sign({ id:user.id, name:user.name, email:user.email }, 'hacktiv8');
+                            var token = jwt.sign({ id:user.id, name:user.name, email:user.email }, process.env.tokenSecretKey);
                             console.log("dari server token (user baru):", token )
                             res
                                 .status(200)
