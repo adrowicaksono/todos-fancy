@@ -27,7 +27,7 @@ const add = function(req,res){
         email: req.body.email,
         password : req.body.password,
     })
-    .then(function(err){
+    .then(function(user){
         res
         .status(200)
         .json({

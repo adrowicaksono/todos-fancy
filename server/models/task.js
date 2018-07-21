@@ -6,6 +6,7 @@ const taskSchema = new Schema({
     task : String,
     tag : [String],
     status : String,
+    deadline: Date,
     userId: { type: Schema.Types.ObjectId, ref: 'User'}, 
 },{timestamps: true})
 

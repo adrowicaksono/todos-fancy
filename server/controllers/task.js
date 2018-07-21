@@ -1,4 +1,6 @@
 const Task = require('../models/task')
+var jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 const getHastag = function(hashtag){
     let strings = hashtag.split("#")
@@ -15,69 +17,52 @@ const getHastag = function(hashtag){
 }
 
 const get = function(req, res){
-    Task
-    .find()
-    .populate("userId", ["name", "email"])
-    .then(function(task){
-        res
+    jwt.verify(req.headers.token, process.env.tokenSecretKey, function(err, decoded) {
+        if(err) res.status(401).json({msg:err.message})
+
+        let userId = decoded.id
+        
+        Task
+        .find({
+            userId:userId
+        })
+        .populate("userId", ["name", "email"])
+        .then(function(task){
+            res
             .status(200)
             .json({task})
-    })
-    .catch(function(err){
-        res
+        })
+        .catch(function(err){
+            res
             .status(400)
             .json({
                 msg: err.message
             })
-    })
+        })      
+    });
+    
 }
 
 const add = function(req, res){
-    let hashtag = getHastag(req.body.tag)
+    jwt.verify(req.headers.token, process.env.tokenSecretKey, function(err, decoded) {
+        if(err) res.status(401).json({msg:"is not user"})
+        
+        let hashtag = getHastag(req.body.tag)
 
-    Task
-    .create({
-        task:req.body.task,
-        tag: hashtag,
-        status:"undoing",
-        userId: req.body.userId,
-    })
-    .then(function(task){
-        res
-            .status(200)
-            .json({
-                msg : "task has been created",
-                task : task
-            })
-    })
-    .catch(function(err){
-        res
-            .status(400)
-            .json({
-                msg : err.message,
-            })
-    })
-}
-
-const edit = function(req, res){
-    console.log(req.query.id)
-    Task
-    .findById(req.query.id)
-    .then(function(task){
-        let tag = getHastag(req.body.tag)
-        // console.log(task)
-        // let newTag = [...task.tag, ...tag]
-        // console.log(newTag)
         Task
-        .findByIdAndUpdate(req.query.id,{
+        .create({
             task:req.body.task,
-            tag: tag, 
+            tag: hashtag,
+            status:"undoing",
+            deadline:new Date(req.body.deadline),
+            userId: decoded.id,
         })
         .then(function(task){
+            //add google calender
             res
                 .status(200)
                 .json({
-                    msg : "update succesfully",
+                    msg : "task has been created",
                     task : task
                 })
         })
@@ -85,38 +70,86 @@ const edit = function(req, res){
             res
                 .status(400)
                 .json({
-                    msg:err.message
+                    msg : err.message,
                 })
-        })
+        })   
+    });
+    
+}
+
+const edit = function(req, res){
+    jwt.verify(req.headers.token, process.env.tokenSecretKey, function(err, decoded) {
+        if(err) res.status(401).json({msg:"is not user"})
+            console.log(req.query.id)
+            Task
+            .findById(req.query.id)
+            .then(function(task){
+                
+
+                
+                tag = getHastag(req.body.tag)                
+                
+
+                Task
+                .findByIdAndUpdate(task.id,{
+                    task:req.body.task,
+                    tag: tag,
+                    status:req.body.status,
+                    deadline:req.body.deadline
+                })
+                .then(function(task){
+                    res
+                        .status(200)
+                        .json({
+                            msg : "update succesfully",
+                            task : task
+                        })
+                })
+                .catch(function(err){
+                    res
+                        .status(400)
+                        .json({
+                            msg:err.message
+                        })
+                })
+
+            })
+            .catch(function(err){
+                res
+                    .status(400)
+                    .json({
+                        msg: err. message
+                    })
+            })
 
     })
-    .catch(function(err){
-        res
-            .status(400)
-            .json({
-                msg: err. message
-            })
-    })
+    
 }
 
 const remove = function(req, res){
-    Task
-    .findByIdAndRemove(req.query.id)
-    .then(function(task){
-        res
-            .status(200)
-            .json({
-                msg: "remove  task successfully",
-                task : task
-            })
+   
+    jwt.verify(req.headers.token, process.env.tokenSecretKey, function(err, decoded) {
+        if(err) res.status(401).json({msg:"is not user"})
+        Task
+        .findByIdAndRemove(req.query.id)
+        .then(function(task){
+            res
+                .status(200)
+                .json({
+                    msg: "remove  task successfully",
+                    task : task
+                })
+        })
+        .catch(function(err){
+            res
+                .status(400)
+                .json({
+                    msg: err.message
+                })
+        })
+    
     })
-    .catch(function(err){
-        res
-            .status(400)
-            .json({
-                msg: err.message
-            })
-    })
+    
 }
 
 const taskStatus = function(req, res){
