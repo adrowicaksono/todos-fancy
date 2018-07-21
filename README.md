@@ -9,14 +9,14 @@ $ npm install -d
 $ npm start
 ```
 
-| Route          | HTTP   | Description |
-|----------------|--------|-------------|
-| /user        | GET    | Get all users info                |
-| /user        | POST   | add a single user                 |
-| /auth        | POST   | login to get a token              |
-|/auth/facebook| POST   | login to get a token with facebook|
-|/task         | GET    | Get all tasks info                |
-|/task         | POST   | add a single task                 |
-|/task         | DELETE | delete a single task              |
-|/task         | PUT    | update a single task              |
+| Route          | HTTP   | Description |Requirement|
+|----------------|--------|-------------|-----------|
+| /user        | GET    | Get all users info||
+| /user        | POST   | add a single user | name, email, password |
+| /auth        | POST   | login to get a token              |email, password|
+| /auth/facebook| POST   | login to get a token with facebook||
+| /task         | GET    | Get all tasks info                |headers:token|
+| /task         | POST   | add a single task                 |headers:token, task, tag, deadline |
+|/task         | DELETE | delete a single task |headers:token, query:task_id|
+|/task         | PUT    | update a single task|headers:token, query:task_id, task, tag, status, deadline|
 
