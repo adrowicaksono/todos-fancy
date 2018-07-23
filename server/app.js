@@ -31,7 +31,7 @@ db.once('open', function() {
 const userRouter = require('./routes/user')
 const authRouter = require('./routes/auth')
 const taskRouter = require('./routes/task')
-app.use('/', function(req,res){
+app.get('/', function(req,res){
   res.send('to-do api - adrowicaksono')
 })
 app.use('/user', userRouter)
