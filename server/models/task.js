@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 
 const taskSchema = new Schema({
+    title : String,
     task : String,
     tag : [String],
     status : Boolean,
