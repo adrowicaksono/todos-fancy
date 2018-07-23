@@ -3,9 +3,10 @@ const Schema = mongoose.Schema
 
 
 const taskSchema = new Schema({
+    title : String,
     task : String,
     tag : [String],
-    status : String,
+    status : Boolean,
     deadline: Date,
     userId: { type: Schema.Types.ObjectId, ref: 'User'}, 
 },{timestamps: true})

@@ -51,9 +51,10 @@ const add = function(req, res){
 
         Task
         .create({
+	    title:req.body.title,
             task:req.body.task,
             tag: hashtag,
-            status:"undoing",
+            status:false,
             deadline:new Date(req.body.deadline),
             userId: decoded.id,
         })
@@ -92,6 +93,7 @@ const edit = function(req, res){
 
                 Task
                 .findByIdAndUpdate(task.id,{
+		    title:req.body.title,
                     task:req.body.task,
                     tag: tag,
                     status:req.body.status,
