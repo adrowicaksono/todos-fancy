@@ -93,7 +93,7 @@ const edit = function(req, res){
 
                 Task
                 .findByIdAndUpdate(task.id,{
-		    title:req.body.title
+		    title:req.body.title,
                     task:req.body.task,
                     tag: tag,
                     status:req.body.status,
