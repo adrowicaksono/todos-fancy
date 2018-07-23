@@ -14,13 +14,12 @@
   </head>
   <body>
     <div id="app">
-        
             <section class="hero is-primary">
                 <div class="hero-body">
                     <div class="container">
                         <div class="columns">
                             <div class="column">
-                                <p>haiii, xxxx</p>
+                                <p>Hi, {{owner}}</p>
                             </div>
                             <div class="column">
                                     <button id="logout" class="button is-link is-outlined is-right" onclick="logout()" >Log Out</button>
@@ -36,10 +35,10 @@
                             <!-- all todo stats -->
                             <ul>
                                 <li>
-                                   <p class="has-text-weight-semibold">Completed : <span>{{todos.filter(todo => {return todo.done === true}).length}}</span></p>
+                                   <p class="has-text-weight-semibold">Completed : <span>{{todos.filter(todo => {return todo.status === true}).length}}</span></p>
                                 </li>
                                 <li>
-                                    <p class="has-text-weight-semibold">Pending : <span>{{ todos.filter(todo => {return todo.done === false}).length}}</span></p>
+                                    <p class="has-text-weight-semibold">Pending : <span>{{ todos.filter(todo => {return todo.status === false}).length}}</span></p>
                                 </li>
                             </ul>
                         </div>
@@ -57,15 +56,15 @@
                                 <div class="card" v-show="!isEditing">
                                     <header class="card-header">
                                         <p class="card-header-title">
-                                        {{ todo.title }}
+                                        {{ todo.title }}, <span> {{dateFormat(todo.deadline)}} </span>
                                         </p>
                                         <a class="card-header-icon">
                                         <span class="status">
                                             <!-- todo status tags -->
-                                            <a class="button is-success is-small has-text-weight-semibold" v-show="!isEditing && todo.done" disabled>
+                                            <a class="button is-success is-small has-text-weight-semibold" v-show="!isEditing && todo.status" disabled>
                                             Completed
                                             </a>
-                                            <a class="button is-danger is-small has-text-weight-semibold" v-on:click="completeTodo(todo)" v-show="!isEditing && !todo.done">
+                                            <a class="button is-danger is-small has-text-weight-semibold" v-on:click="completeTodo(todo)" v-show="!isEditing && !todo.status">
                                             Pending
                                             </a>
                                         </span>
@@ -73,7 +72,10 @@
                                     </header>
                                     <div class="card-content">
                                         <div class="content">
-                                        {{ todo.project }}
+                                        {{ todo.task }}
+                                        </div>
+                                        <div class="content">
+                                            <input class="input" type="tags" placeholder="Add Tag" v-for="tg in todo.tag" v-bind:value="tg" disabled>
                                         </div>
                                     </div>
                                 

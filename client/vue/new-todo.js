@@ -2,7 +2,9 @@ const NewTodo = {
     data () {
         return {
           titleText: '',
-          projectText: '',
+          taskText: '',
+          tagText:'',
+          deadline:'',
           isCreating: false
         }
       },
@@ -17,9 +19,21 @@ const NewTodo = {
                     </div>
                     </div>
                       <div class="field">
-                        <label class="label">Project</label>
+                        <label class="label">Task</label>
                         <div class="control">
-                            <input v-model="projectText" class="input" type="text" />
+                            <input v-model="taskText" class="input" type="text" />
+                        </div>
+                      </div>
+                      <div class="field">
+                        <label class="label">Tag</label>
+                        <div class="control">
+                            <input v-model="tagText" class="input" type="tags" placeholder="#tag"/>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <label class="label">Deadline</label>
+                        <div class="control">
+                            <input v-model="deadline" class="input" type="date" />
                         </div>
                       </div>
                     <div class="create-options">
@@ -37,17 +51,22 @@ const NewTodo = {
           this.isCreating = false
         },
         sendForm () {
-          if (this.titleText.length > 0 && this.projectText.length > 0) {
+          if (this.titleText.length > 0 && this.taskText.length > 0) {
             const title = this.titleText
-            const project = this.projectText
+            const task = this.taskText
+            const tag = "#"+this.tagText
+            const deadline = this.deadline
             this.$emit('new-todo', {
               title,
-              project,
-              done: false
+              task,
+              tag,
+              deadline,
             })
-            this.titleText = ''
-            this.projectText = ''
-            this.isCreating = false
+            this.titleText= '',
+            this.taskText= '',
+            this.tagText='',
+            this.deadline='',
+            isCreating= false
           }
         }
       }

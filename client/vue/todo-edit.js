@@ -1,3 +1,5 @@
+
+
 const EditTodo = {
     props : ['todo'],
    
@@ -15,9 +17,21 @@ const EditTodo = {
                                         </div>
                                         </div>
                                         <div class="field">
-                                        <label class="label">Project</label>
+                                        <label class="label">Task</label>
                                         <div class="control">
-                                            <input class="input" type="text" v-model="todo.project" />
+                                            <input class="input" type="text" v-model="todo.task" />
+                                        </div>
+                                        </div>
+                                        <div class="field">
+                                        <label class="label">Deadline</label>
+                                        <div class="control">
+                                            <input class="input" type="date" v-model="todo.deadline"  />
+                                        </div>
+                                        </div>
+                                        <div class="field">
+                                        <label class="label">Tags</label>
+                                        <div class="control">
+                                            <input class="input" type="tags" v-model="todo.tag" />
                                         </div>
                                         </div>
                                         <div class="close">
@@ -38,7 +52,8 @@ const EditTodo = {
             console.log(this.todo)
             console.log(this.todo.title)
             this.$emit('hide-form')
-        }
+        },
+        
        
     }
 }

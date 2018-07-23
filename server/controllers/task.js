@@ -51,7 +51,7 @@ const add = function(req, res){
 
         Task
         .create({
-	    title:req.body.title,
+	        title:req.body.title,
             task:req.body.task,
             tag: hashtag,
             status:false,
@@ -85,15 +85,10 @@ const edit = function(req, res){
             Task
             .findById(req.query.id)
             .then(function(task){
-                
-
-                
                 tag = getHastag(req.body.tag)                
-                
-
                 Task
                 .findByIdAndUpdate(task.id,{
-		    title:req.body.title,
+		            title:req.body.title,
                     task:req.body.task,
                     tag: tag,
                     status:req.body.status,
