@@ -1,7 +1,7 @@
- const serverAddres = 'http://localhost:3000/auth/facebook'
+ const serverAddres = 'http://test.adrowicaksono.xyz/auth/facebook'
  
  const idApp = '548038762266220'
- const tokenName = "fbToken"
+ const tokenName = "token"
  
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
@@ -15,8 +15,7 @@
     console.log("lanjut axios")
     console.log(response.authResponse)
     if (response.status === 'connected') {
-        console.log(response.status)
-        console.log(response.authResponse.accessToken)
+      localStorage.setItem("fbToken", response.authResponse.accessToken)
         axios.post(serverAddres, {
           accessToken : response.authResponse.accessToken, 
         })
@@ -25,8 +24,7 @@
           localStorage.setItem(tokenName, data.data);
         })
         .then(function(){
-          console.log("setelah login")
-          // window.location.replace("/home.html")
+          window.location.replace("/home.html")
         })
         .catch(function (error) {
           console.log(error);

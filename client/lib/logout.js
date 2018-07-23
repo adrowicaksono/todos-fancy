@@ -1,5 +1,3 @@
-const serverAddres = 'http://localhost:3000/login/'
-const serverHome =  'http://localhost:3000/home/'
 const idApp = '548038762266220'
 
 
@@ -58,6 +56,7 @@ const idApp = '548038762266220'
    alert('sure ??')
    if(localStorage.getItem("fbToken")){
     FB.logout(function(response){
+      localStorage.removeItem("token")
       localStorage.removeItem("fbToken")
        window.location.replace("/index.html")
     });
