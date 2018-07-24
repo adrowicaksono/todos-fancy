@@ -1,12 +1,14 @@
 
 function login(){
-    let serverAddres = 'http://localhost:3000/login/app'
-    let tokenName = "regToken"
-    let username = $("#username").val()
+
+    let serverAddres = 'http://35.240.203.130/auth'
+    let tokenName = "token"
+    let email = $("#email").val()
     let password = $("#password").val()
-       
+    console.log(email)
+    console.log(password)  
     axios.post(serverAddres, {
-        username : username,
+        email : username,
         password : password, 
       })
       .then(function (data) {

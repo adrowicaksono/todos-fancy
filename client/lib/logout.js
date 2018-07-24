@@ -56,12 +56,11 @@ const idApp = '548038762266220'
    alert('sure ??')
    if(localStorage.getItem("fbToken")){
     FB.logout(function(response){
-      localStorage.removeItem("token")
-      localStorage.removeItem("fbToken")
+      localStorage.clear()
        window.location.replace("/index.html")
     });
    }else{
-      localStorage.removeItem("regToken")
+    localStorage.clear()
       window.location.replace("/index.html")
    }
   }
