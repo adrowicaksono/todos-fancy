@@ -51,6 +51,7 @@ const EditTodo = {
         saveChange(){
             console.log(this.todo)
             console.log(this.todo.title)
+            console.log(this.todo.tag)
             this.$emit('hide-form')
         },
         

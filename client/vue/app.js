@@ -21,7 +21,31 @@ let app = new Vue({
                   return `${day}/${month}/${year}`
                 },
                 editTodo(){
+                  let id = todo._id
 
+                    let newTag = todo.tag.reduce(function(result,tag){
+                      let tags =  result + "#" + tag
+                      return tags
+                    }, '')
+                    axios
+                    .put(`http://35.240.203.130/task?id=${id}`, {
+                        title: todo.title,
+                        task:todo.task,
+                        tag:newTag,
+                        deadline: new Date(todo.deadline),
+                        status: todo.status
+                    }, {
+                      headers:{
+                        token: localStorage.getItem("token")
+                      }
+                    })
+                    .then(function(task){
+                      window.location.replace('/home.html')
+                      console.log("berhasil")
+                    })
+                    .catch(function(err){
+                      console.log(err)
+                    })
                 },
 
                 newTodo (newTodo) {
