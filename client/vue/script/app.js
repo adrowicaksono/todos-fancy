@@ -64,10 +64,30 @@ let app = new Vue({
                   })
                 },
                 deleteTodo (todo) {
+                  let id = todo._id
+                  console.log(id)
+                  axios
+                  .delete(`http://35.240.203.130/task?id=${id}`,{
+                    headers:{
+                      token:localStorage.getItem('token')
+                    }
+                  })
+                  .then(function(err){
+                    console.log("successfully delete")
+                    window.location.replace('/home.html')
+                  })
+                  .catch(function(err){
+                    console.log(err.message)
+                  })
+                },
+                hideTodo(todo){
+                  console.log(todo._id)
                   const todoIndex = this.todos.indexOf(todo)
                   this.todos.splice(todoIndex, 1)
                 },
+                showTodo(){
 
+                },
                 completeTodo (todo) {
                     const todoIndex = this.todos.indexOf(todo)
                     this.todos[todoIndex].status = true
@@ -116,7 +136,7 @@ let app = new Vue({
                   })
                   .then((todos)=>{
                     this.todos = todos.data.task
-                    this.owner = todos.data.task[0].userId.name
+                    this.owner = 'Hi, ' + todos.data.task[0].userId.name
                   })
                   .catch(function(err){
                     console.log(err.message)
